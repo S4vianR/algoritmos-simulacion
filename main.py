@@ -43,8 +43,7 @@ def algoritmoCongruencial(x0, a, b, c, m):
         x0 = res  # Actualizar x0 para el siguiente número
     cprint('-----------------------------------------------------------------', 'light_magenta', attrs=['bold'])
 
-
-def algoritmoCuadradosMedios(seed, digits):
+def algoritmoCuadradosMedios(numbers, seed, digits):
     i = 1
     # Texto para los parámetros
     cprint('---------------------------------------------------------', 'light_magenta', attrs=['bold'])
@@ -52,40 +51,33 @@ def algoritmoCuadradosMedios(seed, digits):
           colored(f"Semilla: {seed}, Dígitos: {digits}", 'light_grey'))
     cprint('---------------------------------------------------------', 'light_magenta', attrs=['bold'])
 
-    X = seed
+    num = seed
 
     # Hacer la operación siempre y cuando X sea mayor a 0
-    while i <= 10:
+    while i <= numbers:
         ## Primero elevar al cuadrado
-        X2 = X ** 2
-
-        ## Extraer los dígitos centrales
-        X_str = str(X2)
-
-        ## Si la longitud de la cadena es menor a 4, agregar ceros a la izquierda
-        while len(X_str) < 4:
-            X_str = '0' + X_str
-
-        ## Extraer los dígitos centrales
-        X_centro = int(X_str[1:3])
-
+        num2 = num ** 2
+        ## Convertir a string
+        strNum2 = str(num2).zfill(digits * 2)  # Asegurar que siempre tenga el número de dígitos correcto
+        ## Obtener la longitud del número
+        lenNum2 = len(strNum2)
+        ## Calcular el punto central
+        halfLen = lenNum2 // 2
+        ## Obtener los dígitos centrales
+        num = int(strNum2[halfLen - digits // 2:halfLen + digits // 2])
         ## Normalizar el número
-        Y_str = f"{X_centro / 100}"
-
-        # Texto para las iteraciones sin los pseudoaleatorios
-        cprint(f"Iteracion no.{i}: {colored(f'{X_centro}', 'white')}", 'light_cyan')
-        # Texto para los pseudoaleatorios
-        cprint(f"Pseudoaleatorio no.{i}: {colored(f'{Y_str}', 'white')}\n", 'light_cyan')
-
-        X = X_centro
+        numPseudo = num / (10 ** digits)
+        ## Imprimir el número
+        cprint(f"Pseudoaleatorio no.{i}: {colored(f'{numPseudo}', 'white')}\n", 'light_cyan')
         i += 1  # Aumentar el contador
+        numPseudo = num  # Actualizar la semilla para el siguiente número
 
     cprint('---------------------------------------------------------', 'light_magenta', attrs=['bold'])
 
 def varianza_promedio(n):
     # Generar numeros aleatorios
     nums = []
-    for i in range(10):
+    for i in range(n):
         nums.append(random.randint(1, 100))
     # Calcular el promedio
     promedio = sum(nums) / n
@@ -137,10 +129,11 @@ def menu():
             clear_console()
             algoritmoCongruencial(x0, a, b, c, m)
         elif opt == 3:
+            numbers = int(input(colored('Ingrese el valor de números a calcular: ', 'light_cyan')))
             seed = int(input(colored('Ingrese el valor de la semilla: ', 'light_cyan')))
             digits = int(input(colored('Ingrese el valor de d (dígitos a tomar): ', 'light_cyan')))
             # Limpiar la consola
-            algoritmoCuadradosMedios(seed, digits)
+            algoritmoCuadradosMedios(numbers, seed, digits)
         elif opt == 4:
             n = int(input(colored('Ingrese el valor de n (números a calcular): ', 'light_cyan')))
             # Limpiar la consola
