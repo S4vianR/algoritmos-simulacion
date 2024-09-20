@@ -63,8 +63,8 @@ def algoritmoCuadradosMedios(numbers, seed, digits):
         lenNum2 = len(strNum2)
         ## Calcular el punto central
         halfLen = lenNum2 // 2
-        ## Obtener los dígitos centrales
-        num = int(strNum2[halfLen - digits // 2:halfLen + digits // 2])
+        ## Obtener los dígitos centrales y asegurar que siempre tenga la longitud correcta
+        num = int(strNum2[halfLen - digits // 2:halfLen + digits // 2].zfill(digits))
         ## Normalizar el número
         numPseudo = num / (10 ** digits)
         ## Imprimir el número
